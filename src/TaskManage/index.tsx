@@ -10,7 +10,7 @@ import { toast } from "react-toastify";
 import { useAuthStore } from "./store/useAuthStore";
 
 
-const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
+const ProtectedRoute = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { loggedInUser } = useAuthStore();
@@ -26,7 +26,7 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
     }
   }, [loggedInUser, location.pathname]);
 
-  return loggedInUser ? <>{children}</> : null;
+  return null;
 };
 
 export const TaskManage = () => {
@@ -41,40 +41,25 @@ export const TaskManage = () => {
         <Route path="/login" element={<LoginPage />} />
 
         <Route
-          path="/tasks"
-          element={
-            <ProtectedRoute>
-              <TasksPage />
-            </ProtectedRoute>
-          }
-        />
+        path="/tasks"
+        element={user ? <TasksPage /> : <ProtectedRoute />}
+
+      />
 
         <Route
-          path="/create"
-          element={
-            <ProtectedRoute>
-              <CreateTaskPage />
-            </ProtectedRoute>
-          }
-        />
+        path="/create"
+        element={user ? <CreateTaskPage /> : <ProtectedRoute />}
+      />
 
         <Route
-          path="/update/:id"
-          element={
-            <ProtectedRoute>
-              <UpdateTaskPage />
-            </ProtectedRoute>
-          }
-        />
+        path="/update/:id"
+        element={user ? <UpdateTaskPage /> : <ProtectedRoute />}
+      />
 
         <Route
-          path="/assignee-me"
-          element={
-            <ProtectedRoute>
-              <AssigneeMePage />
-            </ProtectedRoute>
-          }
-        />
+        path="/assignee-me"
+        element={user ? <AssigneeMePage /> : <ProtectedRoute />}
+      />
 
       </Routes>
     </BrowserRouter>
